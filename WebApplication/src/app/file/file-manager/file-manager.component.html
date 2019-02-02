@@ -1,0 +1,19 @@
+<h3>Archivos creados</h3>
+<nz-table #basicTable [nzData]="files">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Usuario creador</th>
+      <th>Fecha creacion</th>
+      <th>Ultima actualizacion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{data.name}}</td>
+      <td>{{data.creatorUser}}</td>
+      <td>{{data.creationDate}}</td>
+      <td>{{data.lastUpdate}}</td>
+    </tr>
+  </tbody>
+</nz-table>

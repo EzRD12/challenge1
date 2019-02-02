@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { FileManagerComponent } from './file-manager/file-manager.component';
 import { Routes, RouterModule } from '@angular/router';
-import { SharedModule } from '../shared/shared.module';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent
+    component: FileManagerComponent
   }
 ];
 
@@ -16,9 +15,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    SharedModule,
     NgZorroAntdModule
   ],
-  declarations: [DashboardComponent]
+  declarations: [FileManagerComponent]
 })
-export class DashboardModule { }
+export class FileModule { }
