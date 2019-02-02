@@ -18,15 +18,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'account/login',
+    redirectTo: '/login',
     pathMatch: 'full',
   },
   {
-    path: 'account/login',
+    path: 'login',
     component: LoginComponent
   },
   {
-    path: 'account/sign-up',
+    path: 'sign-up',
     component: SignUpComponent
   },
   {
@@ -43,7 +43,7 @@ const routes: Routes = [
     path: '**',
     component: LoginComponent
   }
-]
+];
 
 @NgModule({
   declarations: [

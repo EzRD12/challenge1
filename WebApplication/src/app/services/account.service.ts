@@ -17,6 +17,14 @@ export class AccountService {
     });
   }
 
+  login(user) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(user);
+      }, 300);
+    });
+  }
+
   logout(): void {
     localStorage.clear();
   }

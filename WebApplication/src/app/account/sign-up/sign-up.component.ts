@@ -34,10 +34,9 @@ export class SignUpComponent implements OnInit {
       return;
     }
 
-    this.accountService.signUp(user).then((user) => {
-      localStorage.setItem('challengeToken', JSON.stringify(user));
+    this.accountService.signUp(user).then(() => {
       this.displayToast('Registro completo', 'La operacion ha sido exitosa', ToastType.Success);
-      this.router.navigate(['../../dashboard']);
+      this.router.navigate(['../../login']);
     }).catch(() => {
       this.displayToast('Error', 'No se logró registrar correctamente', ToastType.Error);
     });
