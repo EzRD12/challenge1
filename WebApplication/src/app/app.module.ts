@@ -11,6 +11,9 @@ import { AdminComponent } from './layouts/admin/admin.component';
 import { NavbarModule } from './shared/navbar/navbar.module';
 import { FooterModule } from './shared/footer/footer.module';
 import { SidebarModule } from './sidebar/sidebar.module';
+import { ToastNotificationService } from './services/toast-notification.service';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   {
@@ -36,7 +39,10 @@ const routes: Routes = [
       }
     ]
   },
-  { path: '**', component: LoginComponent }
+  {
+    path: '**',
+    component: LoginComponent
+  }
 ]
 
 @NgModule({
@@ -54,10 +60,13 @@ const routes: Routes = [
     SharedModule,
     NavbarModule,
     FooterModule,
-    SidebarModule
+    SidebarModule,
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
+    ToastNotificationService
   ],
   bootstrap: [AppComponent]
 })
