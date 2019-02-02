@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FileManagerComponent } from './file-manager/file-manager.component';
 import { Routes, RouterModule } from '@angular/router';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -15,7 +16,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    NgZorroAntdModule
+    NgZorroAntdModule,
+    ReactiveFormsModule
   ],
   declarations: [FileManagerComponent]
 })

@@ -3,6 +3,7 @@ import { ROUTES } from '../../sidebar/sidebar.component';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NzModalService } from 'ng-zorro-antd';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
     selector: 'navbar-cmp',
@@ -22,7 +23,8 @@ export class NavbarComponent implements OnInit {
         private renderer: Renderer,
         private element: ElementRef,
         private router: Router,
-        private modalService: NzModalService) {
+        private modalService: NzModalService,
+        private accountService: AccountService) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
@@ -49,7 +51,10 @@ export class NavbarComponent implements OnInit {
         this.modalService.confirm({
             nzTitle: 'Cerrar sesion',
             nzContent: 'Esta seguro de cerrar la sesion',
-            nzOnOk: () => this.router.navigate(['pages/login'])
+            nzOnOk: () => {
+                this.router.navigate(['pages/login']);
+                this.logout();
+            }
         });
     }
 
@@ -68,5 +73,9 @@ export class NavbarComponent implements OnInit {
             this.sidebarVisible = false;
             body.classList.remove('nav-open');
         }
+    }
+
+    logout() {
+        this.accountService.logout();
     }
 }
