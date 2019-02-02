@@ -4,9 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './account/login/login.component';
 import { SignUpComponent } from './account/sign-up/sign-up.component';
-import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { SharedModule } from './shared/shared.module';
+import { AdminComponent } from './layouts/admin/admin.component';
+import { NavbarModule } from './shared/navbar/navbar.module';
+import { FooterModule } from './shared/footer/footer.module';
+import { SidebarModule } from './sidebar/sidebar.module';
 
 const routes: Routes = [
   {
@@ -22,6 +26,16 @@ const routes: Routes = [
     path: 'account/sign-up',
     component: SignUpComponent
   },
+  {
+    path: '',
+    component: AdminComponent,
+    children: [
+      {
+        path: 'dashboard',
+        loadChildren: './dashboard/dashboard.module#DashboardModule'
+      }
+    ]
+  },
   { path: '**', component: LoginComponent }
 ]
 
@@ -30,15 +44,21 @@ const routes: Routes = [
     AppComponent,
     LoginComponent,
     SignUpComponent,
-    DashboardComponent
+    AdminComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
     NgZorroAntdModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule,
+    NavbarModule,
+    FooterModule,
+    SidebarModule
   ],
-  providers: [],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
