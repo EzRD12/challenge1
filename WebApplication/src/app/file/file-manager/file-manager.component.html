@@ -45,10 +45,10 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of basicTable.data">
-        <td>{{data.name}}</td>
-        <td>{{data.creatorUser}}</td>
-        <td>{{data.creationDate}}</td>
-        <td>{{data.lastUpdate}}</td>
+        <td>{{data.Name}}</td>
+        <td>{{data.Owner}}</td>
+        <td>{{data.Type}}</td>
+        <td>{{data.UpdateDate}}</td>
         <td>
             <a (click)="showModalAsEditMode(data.name)">Actualizar</a>
             <nz-divider nzType="vertical"></nz-divider>

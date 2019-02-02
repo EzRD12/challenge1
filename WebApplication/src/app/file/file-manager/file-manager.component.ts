@@ -9,14 +9,7 @@ import { FileService } from 'src/app/services/file.service';
   styleUrls: ['./file-manager.component.css']
 })
 export class FileManagerComponent implements OnInit {
-  files: any[] = [
-    {
-      name: 'Victor',
-      creatorUser: 'La Garza',
-      creationDate: '2018-02-04',
-      lastUpdate: '2018-03-04'
-    }
-  ];
+  files: any[] = [];
   isVisible = false;
   fileForm: FormGroup;
   modalTitle = 'Creacion de archivo';
@@ -33,6 +26,16 @@ export class FileManagerComponent implements OnInit {
       firstMessage: ['', Validators.required],
       userOwner: ['', Validators.required],
       fileType: ['', Validators.required]
+    });
+    this.getFiles();
+  }
+
+  getFiles() {
+    this.fileService.getFiles().then(files => {
+      this.files = files;
+      console.log(this.files);
+    }).catch(() => {
+      this.displayToast('Error', 'No se lograron cargar los archivos', ToastType.Error);
     });
   }
 
@@ -87,6 +90,10 @@ export class FileManagerComponent implements OnInit {
       title: title,
       message: message
     }, toastType);
+  }
+
+  deleteFile(name: string) {
+
   }
 
 }

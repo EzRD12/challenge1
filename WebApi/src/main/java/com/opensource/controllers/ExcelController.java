@@ -12,10 +12,7 @@ import org.apache.poi.xslf.usermodel.XSLFTextBox;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +27,7 @@ import java.util.List;
 @RestController
 public class ExcelController {
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/user/authenticate", method = RequestMethod.POST)
     public BasicOperationResult<AuthenticationResponse> AuthenticateUser(@RequestBody AuthenticateRequest request) throws IOException {
         FileInputStream file = new FileInputStream("files\\database\\database.xls");
@@ -52,6 +50,7 @@ public class ExcelController {
         return new BasicOperationResult<AuthenticationResponse>("InvalidCredentials", false, null);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public User CreateUser(@RequestBody User request) throws IOException {
         File database = new File("files\\database\\database.xls");
@@ -85,6 +84,7 @@ public class ExcelController {
         return request;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/files", method = RequestMethod.GET)
     public List<com.opensource.models.File> GetFiles() throws IOException, ParseException {
         FileInputStream file = new FileInputStream("files\\database\\database.xls");
@@ -109,6 +109,7 @@ public class ExcelController {
         return files;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/excel", method = RequestMethod.POST)
     public boolean CreateExcelFile(@RequestBody CreateFileRequest request) throws IOException {
         HSSFWorkbook workbook = new HSSFWorkbook();
@@ -130,6 +131,7 @@ public class ExcelController {
         return true;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/word", method = RequestMethod.POST)
     public boolean CreateWordFile(@RequestBody CreateFileRequest request) throws IOException {
         try{
@@ -152,6 +154,7 @@ public class ExcelController {
         return true;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/power-point", method = RequestMethod.POST)
     public boolean CreatePowerPointFile(@RequestBody CreateFileRequest request) throws IOException {
         XMLSlideShow ppt = new XMLSlideShow();
