@@ -1,27 +1,27 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="{{modalTitle}}" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-  <form nz-form [formGroup]="fileForm" (ngSubmit)="submitForm()">
+  <form nz-form [formGroup]="fileForm">
     <nz-form-item>
-      <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired nzFor="name">Nombre</nz-form-label>
+      <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired nzFor="Name">Nombre</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="name" id="name">
+        <input nz-input formControlName="Name" id="Name">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="10" [nzXs]="30" nzFor="firstMessage" nzRequired>Primer mensaje</nz-form-label>
+      <nz-form-label [nzSm]="10" [nzXs]="30" nzFor="FirstMessage" nzRequired>Primer mensaje</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input id="firstMessage" formControlName="firstMessage">
+        <input nz-input id="FirstMessage" formControlName="FirstMessage">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="10" [nzXs]="30" nzFor="userOwner" nzRequired>Usuario propietario</nz-form-label>
+      <nz-form-label [nzSm]="10" [nzXs]="30" nzFor="UserOwner" nzRequired>Usuario propietario</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input type="userOwner" formControlName="userOwner" id="userOwner">
+        <input nz-input type="UserOwner" formControlName="UserOwner" id="UserOwner">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSm]="10" [nzXs]="30" nzFor="fileType" nzRequired>Tipo de archivo</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <nz-select formControlName="fileType" style="width: 100px;">
+        <nz-select formControlName="FileType" style="width: 100px;">
           <nz-option nzLabel="Excel" nzValue="0"></nz-option>
           <nz-option nzLabel="Word" nzValue="1"></nz-option>
           <nz-option nzLabel="Power Point" nzValue="2"></nz-option>
