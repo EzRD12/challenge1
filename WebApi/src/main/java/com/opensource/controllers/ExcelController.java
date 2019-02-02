@@ -1,9 +1,7 @@
 package com.opensource.controllers;
 
 import com.opensource.enums.FileType;
-import com.opensource.models.AuthenticateRequest;
-import com.opensource.models.CreateFileRequest;
-import com.opensource.models.User;
+import com.opensource.models.*;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -24,14 +22,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class ExcelController {
 
     @RequestMapping(value = "/user/authenticate", method = RequestMethod.POST)
-    public boolean AuthenticateUser(@RequestBody AuthenticateRequest request) throws IOException {
+    public BasicOperationResult<AuthenticationResponse> AuthenticateUser(@RequestBody AuthenticateRequest request) throws IOException {
         FileInputStream file = new FileInputStream("files\\database\\database.xls");
         HSSFWorkbook workbook = new HSSFWorkbook(file);
 
@@ -44,12 +44,12 @@ public class ExcelController {
             if(username.equals(request.Username)) {
                 String password = row.getCell(1).toString();
                 if(password.equals(request.Password)) {
-                    return true;
+                    return new BasicOperationResult<AuthenticationResponse>("", true, new AuthenticationResponse(username, password));
                 }
             }
         }
 
-        return false;
+        return new BasicOperationResult<AuthenticationResponse>("InvalidCredentials", false, null);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
@@ -85,23 +85,24 @@ public class ExcelController {
         return request;
     }
 
-    @RequestMapping(value = "/files", method = RequestMethod.POST)
-    public List<com.opensource.models.File> GetFiles(@RequestBody AuthenticateRequest request) throws IOException {
+    @RequestMapping(value = "/files", method = RequestMethod.GET)
+    public List<com.opensource.models.File> GetFiles() throws IOException, ParseException {
         FileInputStream file = new FileInputStream("files\\database\\database.xls");
         HSSFWorkbook workbook = new HSSFWorkbook(file);
 
         HSSFSheet sheet = workbook.getSheet("Files");
         HSSFRow row;
-        List<com.opensource.models.File> files = null;
+        List<com.opensource.models.File> files = new ArrayList<com.opensource.models.File>();
 
         for (int index = 1; index <= sheet.getLastRowNum(); index++) {
             row = sheet.getRow(index);
             com.opensource.models.File fi = new com.opensource.models.File();
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
             fi.Name = row.getCell(0).toString();
             fi.Owner = row.getCell(1).toString();
-            fi.Type = Integer.parseInt(row.getCell(1).toString());
-            fi.CreationDate = Date.valueOf( row.getCell(3).toString());
-            fi.UpdateDate = Date.valueOf( row.getCell(4).toString());
+            fi.Type = FileType.values()[(int)row.getCell(2).getNumericCellValue()];
+            fi.CreationDate = format.parse(row.getCell(3).toString());
+            fi.UpdateDate = format.parse(row.getCell(4).toString());
             files.add(fi);
         }
 
