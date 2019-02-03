@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   authenticate() {
     const user = this.loginForm.getRawValue();
 
+    // tslint:disable-next-line:no-shadowed-variable
     this.accountService.login(user).then((user) => {
       localStorage.setItem('challengeToken', JSON.stringify(user));
       this.displayToast('Bienvenido', '', ToastType.Success);

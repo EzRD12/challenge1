@@ -80,6 +80,19 @@ export class FileManagerComponent implements OnInit {
     });
   }
 
+  private deleteFile(file) {
+
+    const request = {
+      Name: file.Name,
+      FileType: file.Type
+    };
+    this.fileService.deleteFile(request).then(result => {
+      this.getFiles();
+    }).catch(() => {
+      this.displayToast('Error', 'No se logro borrar el archivo', ToastType.Error);
+    });
+  }
+
   handleCancel(): void {
     this.isVisible = false;
   }
@@ -90,9 +103,4 @@ export class FileManagerComponent implements OnInit {
       message: message
     }, toastType);
   }
-
-  deleteFile(name: string) {
-
-  }
-
 }

@@ -51,6 +51,29 @@ public class ExcelController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/files/delete", method = RequestMethod.POST)
+    public boolean DeleteFile(@RequestBody DeleteFileModel request) throws IOException {
+        FileInputStream file = new FileInputStream("files\\database\\database.xls");
+        HSSFWorkbook workbook = new HSSFWorkbook(file);
+        File fileToDelete = new File("files\\database\\"+ request.Name + ".xls");
+
+        HSSFSheet sheet = workbook.getSheet("Files");
+        HSSFRow row;
+
+        for (int index = 1; index <= sheet.getLastRowNum(); index++) {
+            row = sheet.getRow(index);
+            String username = row.getCell(0).toString();
+            if(username.equals(request.Name)) {
+                sheet.removeRow(row);
+                fileToDelete.delete();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public User CreateUser(@RequestBody User request) throws IOException {
         File database = new File("files\\database\\database.xls");

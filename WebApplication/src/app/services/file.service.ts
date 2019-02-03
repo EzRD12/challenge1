@@ -19,6 +19,10 @@ export class FileService {
     }
   }
 
+  deleteFile(file) {
+      return this.http.post(`${environment.apiBaseUrl}/files/delete`, file).toPromise();
+  }
+
   getFiles() {
     return this.http.get<any[]>(`${environment.apiBaseUrl}/files`).toPromise();
   }

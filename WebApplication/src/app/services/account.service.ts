@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserProfile } from '../models/user-profile';
@@ -10,19 +11,11 @@ export class AccountService {
   constructor(private http: HttpClient) { }
 
   signUp(user) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(user);
-      }, 300);
-    });
+    return this.http.post(`${environment.apiBaseUrl}/user`, user).toPromise();
   }
 
-  login(user) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(user);
-      }, 300);
-    });
+  login(request) {
+    return this.http.post(`${environment.apiBaseUrl}/user/authenticate`, request).toPromise();
   }
 
   logout(): void {

@@ -19,17 +19,17 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit() {
     this.registerForm = this.builder.group({
-      username: [null, [Validators.email]],
-      password: [null, [Validators.required]],
+      Username: [null, [Validators.email]],
+      Password: [null, [Validators.required]],
       passwordConfirmation: [null, [Validators.required]],
-      name: [null, [Validators.required]]
+      FullName: [null, [Validators.required]]
     });
   }
 
   register() {
     const user = this.registerForm.getRawValue();
 
-    if (user.password !== user.passwordConfirmation) {
+    if (user.Password !== user.passwordConfirmation) {
       this.displayToast('Inconsistencia en contraseñas', 'Las contraseñas insertadas no coinciden', ToastType.Error);
       return;
     }
