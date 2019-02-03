@@ -1,32 +1,26 @@
 <div class="limiter">
   <div class="container-login100">
     <div class="login100-more" style="background-image: url('assets/img/bg.jpg');"></div>
-    <div style="text-align: center" class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
+    <div style="text-align: left" class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
       <form name="loginForm" [formGroup]="loginForm" style="padding-left: 2em; padding-right: 2em;" (ngSubmit)="authenticate()"
         class="login100-form validate-form" novalidate>
         <span class="login100-form-title p-b-41">
-          Inicio de sesion
+          Login
         </span>
         <div class="wrap-input100 validate-input" data-validate="Ingrese correo">
-          <span class="label-input100">Correo electronico</span>
-          <input class="input100" type="text" formControlName="username" placeholder="Correo electronico">
+          <span class="label-input100">Username</span>
+          <input class="input100" type="text" formControlName="username" placeholder="Username">
           <span class="focus-input100"></span>
         </div>
 
         <div class="wrap-input100 validate-input" data-validate="Ingrese contraseña">
-          <span class="label-input100">Contraseña</span>
-          <input class="input100" formControlName="password" type="password" name="email" placeholder="Contraseña">
+          <span class="label-input100">Password</span>
+          <input class="input100" formControlName="password" type="password" name="email" placeholder="Password">
           <span class="focus-input100"></span>
         </div>
-
-        <div class="container-login100-form-btn">
-          <div class="wrap-login100-form-btn">
-            <div class="login100-form-bgbtn"></div>
-            <button type="submit" class="login100-form-btn">
-              Acceder
+            <button type="submit" style="text-align: center;width: 100%; height: 30%;border-radius: 10px;color: white;background-color: black">
+              Sing-In
             </button>
-          </div>
-        </div>
       </form>
     </div>
   </div>

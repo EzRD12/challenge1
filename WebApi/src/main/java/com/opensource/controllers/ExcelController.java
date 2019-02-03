@@ -154,19 +154,21 @@ public class ExcelController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/word", method = RequestMethod.POST)
-    public boolean CreateWordFile(@RequestBody CreateFileRequest request) throws IOException {
+    public boolean CreateWordFile(@RequestBody Word request) throws IOException {
         try{
-            XWPFDocument document = new XWPFDocument();
-            File file = new File("files\\\\word\\" +request.Name + ".docx");
-            FileOutputStream out = new FileOutputStream(file);
 
+            XWPFDocument document = new XWPFDocument();
             XWPFParagraph paragraph = document.createParagraph();
             XWPFRun run = paragraph.createRun();
-            run.setText(request.Name);
-            document.write(out);
-            CreateFileModel(request);
+            run.setText(request.Message);
+            run.setFontSize(18);
 
+            File file = new File("files\\Reportes\\" +request.Name + ".docx");
+            FileOutputStream out = new FileOutputStream(file);
+
+            document.write(out);
             out.close();
+
         }catch (Exception e ){
             e.printStackTrace();
             throw e;

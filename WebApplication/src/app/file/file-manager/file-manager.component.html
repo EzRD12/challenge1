@@ -44,8 +44,8 @@
 </nz-modal>
 <nz-card>
   <button class="button" nz-button [nzType]="'primary'" (click)="showModalAsCreationMode()"><span>Crear Estudiante</span></button>
-  <button style= "float: right; margin-left: 20px" class="button" nz-button [nzType]="'primary'" (click)="showModalAsCreationMode()"><span>Crear Reporte</span></button>
-  <button style= "float: right; margin-left: 20px" class="button" nz-button [nzType]="'primary'" (click)="showModalAsCreationMode()"><span>Crear Presentacion</span></button>
+  <button style= "float: right; margin-left: 20px" class="button" nz-button [nzType]="'primary'" (click)="showReportModal()"><span>Crear Reporte</span></button>
+  <button style= "float: right; margin-left: 20px" class="button" nz-button [nzType]="'primary'" (click)="showPresentationModal()"><span>Crear Presentacion</span></button>
   <h3>Listado de Estudiantes</h3>
   <nz-table #basicTable [nzData]="files">
     <thead>
@@ -74,3 +74,20 @@
     </tbody>
   </nz-table>
 </nz-card>
+
+<nz-modal [(nzVisible)]="isVisibleReport" nzTitle="{{reportTittle}}" (nzOnCancel)="handelReportCancel()" (nzOnOk)="handleReport()">
+  <form nz-form [formGroup]="reportForm" style="text-align: left">
+    <nz-form-item>
+      <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired nzFor="Name">Nombre</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input nz-input formControlName="Name">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired>Texto</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea formControlName="Message"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

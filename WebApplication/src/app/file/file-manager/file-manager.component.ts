@@ -12,10 +12,13 @@ export class FileManagerComponent implements OnInit {
   files: any[] = [];
   isVisible = false;
   fileForm: FormGroup;
-  modalTitle = 'Creacion de archivo';
+  reportForm: FormGroup;
+  modalTitle = 'Crear Estudiante';
+  reportTittle = 'Crear Reporte en Word';
   isCreationMode = false;
   selectedFile = '';
-
+  isVisibleReport = false;
+  isVisiblePresentation = false;
   constructor(private fb: FormBuilder,
     private fileService: FileService,
     private toastNotificationService: ToastNotificationService) { }
@@ -27,6 +30,10 @@ export class FileManagerComponent implements OnInit {
       UniqueId: ['', Validators.required],
       Age: ['', Validators.required],
       Session: ['', Validators.required]
+    });
+    this.reportForm = this.fb.group({
+      Name: [''],
+      Message: ['']
     });
     this.getFiles();
   }
@@ -48,6 +55,25 @@ export class FileManagerComponent implements OnInit {
     this.selectedFile = file;
     this.isVisible = true;
     this.isCreationMode = false;
+  }
+
+  showReportModal(): void {
+    this.isVisibleReport = true;
+  }
+
+  showPresentationModal(): void {
+    this.isVisiblePresentation = true;
+  }
+
+  handleReport(): void {
+    const word = this.reportForm.getRawValue();
+    this.createWord(word);
+    this.isVisibleReport = false;
+    this.reportForm.reset();
+  }
+
+  handelReportCancel(): void {
+    this.isVisibleReport = false;
   }
 
   handleOk(): void {
@@ -74,7 +100,7 @@ export class FileManagerComponent implements OnInit {
 
   private createFile(fileForm: any) {
     this.fileService.createFile(fileForm).then(() => {
-      this.displayToast('Archivo creado', '', ToastType.Success);
+      this.displayToast('El estudiante ha sido creado.', '', ToastType.Success);
       console.log(fileForm);
       this.getFiles();
     }).catch(() => {
@@ -93,8 +119,13 @@ export class FileManagerComponent implements OnInit {
     }, toastType);
   }
 
-  deleteFile(name: string) {
-
+  private createWord(word) {
+    this.fileService.createWordFile(word).then(() => {
+      this.displayToast('El archivo ha sido creado', '', ToastType.Success);
+      console.log(word);
+    }).catch(() => {
+      this.displayToast('Error', 'No se logro crear el archivo', ToastType.Error);
+    });
   }
 
 }

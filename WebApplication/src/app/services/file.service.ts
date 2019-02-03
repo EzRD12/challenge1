@@ -16,4 +16,8 @@ export class FileService {
   getFiles() {
     return this.http.get<any[]>(`${environment.apiBaseUrl}/files`).toPromise();
   }
+
+  createWordFile(message) {
+    return this.http.post(`${environment.apiBaseUrl}/word`, message).toPromise();
+  }
 }
