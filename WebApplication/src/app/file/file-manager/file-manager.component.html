@@ -3,23 +3,35 @@
     <nz-form-item>
       <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired nzFor="Name">Nombre</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input formControlName="Name" id="Name">
+        <input nz-input formControlName="Name">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="10" [nzXs]="30" nzFor="FirstMessage" nzRequired>Primer mensaje</nz-form-label>
+        <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired>Apellido</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input id="FirstMessage" formControlName="FirstMessage">
+        <input nz-input formControlName="LastName">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="10" [nzXs]="30" nzFor="UserOwner" nzRequired>Usuario propietario</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input type="UserOwner" formControlName="UserOwner" id="UserOwner">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="10" [nzXs]="30" nzFor="fileType" nzRequired>Tipo de archivo</nz-form-label>
+        <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired>Matricula</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input nz-input  formControlName="UniqueId">
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+          <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired>Edad</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24">
+            <input nz-input  formControlName="Age" >
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired>Curso</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <input nz-input  formControlName="Session" >
+            </nz-form-control>
+          </nz-form-item>
+    <!-- <nz-form-item>
+      <nz-form-label [nzSm]="10" [nzXs]="30" nzFor="fileType" nzRequired>Matricula</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <nz-select formControlName="FileType" style="width: 100px;">
           <nz-option nzLabel="Excel" nzValue="0"></nz-option>
@@ -27,33 +39,37 @@
           <nz-option nzLabel="Power Point" nzValue="2"></nz-option>
         </nz-select>
       </nz-form-control>
-    </nz-form-item>
+    </nz-form-item> -->
   </form>
 </nz-modal>
 <nz-card>
-  <button class="button" nz-button [nzType]="'primary'" (click)="showModalAsCreationMode()"><span>Crear archivo</span></button>
-  <h3>Archivos creados</h3>
+  <button class="button" nz-button [nzType]="'primary'" (click)="showModalAsCreationMode()"><span>Crear Estudiante</span></button>
+  <button style= "float: right; margin-left: 20px" class="button" nz-button [nzType]="'primary'" (click)="showModalAsCreationMode()"><span>Crear Reporte</span></button>
+  <button style= "float: right; margin-left: 20px" class="button" nz-button [nzType]="'primary'" (click)="showModalAsCreationMode()"><span>Crear Presentacion</span></button>
+  <h3>Listado de Estudiantes</h3>
   <nz-table #basicTable [nzData]="files">
     <thead>
       <tr>
         <th>Nombre</th>
-        <th>Usuario creador</th>
-        <th>Fecha creacion</th>
-        <th>Ultima actualizacion</th>
-        <th>Accion</th>
+        <th>Apellido</th>
+        <th>Matricula</th>
+        <th>Edad</th>
+        <th>Curso</th>
+        <!-- <th>Accion</th> -->
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of basicTable.data">
         <td>{{data.Name}}</td>
-        <td>{{data.Owner}}</td>
-        <td>{{data.Type}}</td>
-        <td>{{data.UpdateDate}}</td>
-        <td>
+        <td>{{data.LastName}}</td>
+        <td>{{data.UniqueId}}</td>
+        <td>{{data.Age}}</td>
+        <td>{{data.Session}}</td>
+        <!-- <td>
             <a (click)="showModalAsEditMode(data.name)">Actualizar</a>
             <nz-divider nzType="vertical"></nz-divider>
             <a (click)="deleteFile(data.name)">Borrar</a>
-          </td>
+          </td> -->
       </tr>
     </tbody>
   </nz-table>

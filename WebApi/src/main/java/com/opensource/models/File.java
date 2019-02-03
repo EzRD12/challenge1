@@ -8,25 +8,23 @@ public class File {
 
     public File() {}
 
-    public File (String _name, FileType _type, String _owner, Date _creationDate, Date _updateDate) {
+    public File (String _name, String _lastName, String _uniqueId, String _age, String _session) {
         this.Name = _name;
-        this.Type = _type;
-        this.Owner = _owner;
-        this.CreationDate = _creationDate;
-        this.UpdateDate = _updateDate;
+        this.LastName = _lastName;
+        this.UniqueId = _uniqueId;
+        this.Age = _age;
+        this.Session = _session;
     }
 
-    public File (String _name, FileType _type, String _owner) {
+    public File (String _name, String _lastName, String _uniqueId) {
         this.Name = _name;
-        this.Type = _type;
-        this.Owner = _owner;
-        this.CreationDate = new Date();
-        this.UpdateDate = new Date();
+        this.LastName = _lastName;
+        this.UniqueId = _uniqueId;
     }
 
     public String Name;
-    public FileType Type;
-    public Date CreationDate;
-    public Date UpdateDate;
-    public String Owner;
+    public String LastName;
+    public String UniqueId;
+    public String Age;
+    public String Session;
 }

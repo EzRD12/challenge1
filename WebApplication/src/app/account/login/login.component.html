@@ -1,7 +1,7 @@
 <div class="limiter">
   <div class="container-login100">
-    <div class="login100-more" style="background-image: url('assets/img/bg-01.jpg');"></div>
-    <div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
+    <div class="login100-more" style="background-image: url('assets/img/bg.jpg');"></div>
+    <div style="text-align: center" class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
       <form name="loginForm" [formGroup]="loginForm" style="padding-left: 2em; padding-right: 2em;" (ngSubmit)="authenticate()"
         class="login100-form validate-form" novalidate>
         <span class="login100-form-title p-b-41">
@@ -27,11 +27,6 @@
             </button>
           </div>
         </div>
-
-        <div class="container-login100-form-btn m-t-32 text-center">
-          <a [routerLink]="['../sign-up']" style="font-weight: bold; font-size: 1.2em;">¿No tienes cuenta? Registrate</a>
-        </div>
-
       </form>
     </div>
   </div>

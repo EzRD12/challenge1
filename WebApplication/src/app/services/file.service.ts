@@ -10,13 +10,7 @@ export class FileService {
   constructor(private http: HttpClient) { }
 
   createFile(fileForm) {
-    if (fileForm.FileType == 0) {
       return this.http.post(`${environment.apiBaseUrl}/excel`, fileForm).toPromise();
-    } else if (fileForm.FileType == 1) {
-      return this.http.post(`${environment.apiBaseUrl}/word`, fileForm).toPromise();
-    } else {
-      return this.http.post(`${environment.apiBaseUrl}/power-point`, fileForm).toPromise();
-    }
   }
 
   getFiles() {

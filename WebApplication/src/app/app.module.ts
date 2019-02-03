@@ -14,6 +14,7 @@ import { SidebarModule } from './sidebar/sidebar.module';
 import { ToastNotificationService } from './services/toast-notification.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,10 @@ const routes: Routes = [
       {
         path: 'file',
         loadChildren: './file/file.module#FileModule'
+      },
+      {
+        path: 'users',
+        loadChildren: './users/users.module#UsersModule'
       }
     ]
   },

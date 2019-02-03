@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastNotificationService, ToastType } from 'src/app/services/toast-notification.service';
 import { AccountService } from 'src/app/services/account.service';
 import { Router } from '@angular/router';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,7 +16,8 @@ export class SignUpComponent implements OnInit {
   constructor(private builder: FormBuilder,
     private accountService: AccountService,
     private router: Router,
-    private toastNotificationService: ToastNotificationService) { }
+    private toastNotificationService: ToastNotificationService,
+    private userService: UsersService) { }
 
   ngOnInit() {
     this.registerForm = this.builder.group({
@@ -47,6 +49,14 @@ export class SignUpComponent implements OnInit {
       title: title,
       message: message
     }, toastType);
+  }
+
+  createUser(user) {
+    this.userService.createUser(user).then(() => {
+      this.displayToast('Usuario creado', '', ToastType.Success);
+    }).catch(() => {
+      this.displayToast('Error', 'No se logro crear el usuario', ToastType.Error);
+    });
   }
 
 }

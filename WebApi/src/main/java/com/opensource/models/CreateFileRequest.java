@@ -2,6 +2,9 @@ package com.opensource.models;
 
 public class CreateFileRequest {
     public String Name;
-    public String FirstMessage;
-    public String UserOwner;
+    public String LastName;
+    public String UniqueId;
+    public String Age;
+    public String Session;
+
 }

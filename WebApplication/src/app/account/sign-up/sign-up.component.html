@@ -1,6 +1,6 @@
 <div class="limiter">
   <div class="container-login100">
-    <div class="login100-more" style="background-image: url('assets/img/bg-01.jpg');"></div>
+    <div class="login100-more" style="background-image: url('assets/img/bg.jpg');"></div>
 
     <div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
       <form nz-form nzLayout="horizontal" [formGroup]="registerForm" style="padding-left: 2em; padding-right: 2em;"
@@ -50,7 +50,7 @@
         <div class="container-login100-form-btn">
           <div class="wrap-login100-form-btn">
             <div class="login100-form-bgbtn"></div>
-            <button type="submit" class="login100-form-btn">
+            <button type="submit" class="login100-form-btn" (submit)="createUser()">
               Registrarme
             </button>
           </div>

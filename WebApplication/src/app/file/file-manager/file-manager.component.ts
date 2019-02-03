@@ -23,9 +23,10 @@ export class FileManagerComponent implements OnInit {
   ngOnInit() {
     this.fileForm = this.fb.group({
       Name: ['', Validators.required],
-      FirstMessage: ['', Validators.required],
-      UserOwner: ['', Validators.required],
-      FileType: ['', Validators.required]
+      LastName: ['', Validators.required],
+      UniqueId: ['', Validators.required],
+      Age: ['', Validators.required],
+      Session: ['', Validators.required]
     });
     this.getFiles();
   }
@@ -74,6 +75,7 @@ export class FileManagerComponent implements OnInit {
   private createFile(fileForm: any) {
     this.fileService.createFile(fileForm).then(() => {
       this.displayToast('Archivo creado', '', ToastType.Success);
+      console.log(fileForm);
       this.getFiles();
     }).catch(() => {
       this.displayToast('Error', 'No se logro crear el archivo', ToastType.Error);

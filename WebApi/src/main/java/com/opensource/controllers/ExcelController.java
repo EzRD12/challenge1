@@ -30,7 +30,7 @@ public class ExcelController {
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/user/authenticate", method = RequestMethod.POST)
     public BasicOperationResult<AuthenticationResponse> AuthenticateUser(@RequestBody AuthenticateRequest request) throws IOException {
-        FileInputStream file = new FileInputStream("files\\database\\database.xls");
+        FileInputStream file = new FileInputStream("files\\ExcelDB\\Files.xls");
         HSSFWorkbook workbook = new HSSFWorkbook(file);
 
         HSSFSheet sheet = workbook.getSheet("Users");
@@ -53,13 +53,7 @@ public class ExcelController {
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public User CreateUser(@RequestBody User request) throws IOException {
-        File database = new File("files\\database\\database.xls");
-
-        if(!database.exists()) {
-            CreateDatabase();
-        }
-
-        FileInputStream file = new FileInputStream("files\\database\\database.xls");
+        FileInputStream file = new FileInputStream("files\\ExcelDB\\Files.xls");
 
         HSSFWorkbook workbook = new HSSFWorkbook(file);
 
@@ -73,9 +67,9 @@ public class ExcelController {
         cell1.setCellValue(request.Password);
 
         HSSFCell cell2 = row.createCell(2);
-        cell2.setCellValue(request.FullName);
+        cell2.setCellValue(request.Email);
 
-        FileOutputStream out = new FileOutputStream("files\\database\\database.xls");
+        FileOutputStream out = new FileOutputStream("files\\ExcelDB\\Files.xls");
 
         workbook.write(out);
         out.flush();
@@ -87,7 +81,7 @@ public class ExcelController {
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/files", method = RequestMethod.GET)
     public List<com.opensource.models.File> GetFiles() throws IOException, ParseException {
-        FileInputStream file = new FileInputStream("files\\database\\database.xls");
+        FileInputStream file = new FileInputStream("files\\ExcelDB\\Files.xls");
         HSSFWorkbook workbook = new HSSFWorkbook(file);
 
         HSSFSheet sheet = workbook.getSheet("Files");
@@ -99,10 +93,10 @@ public class ExcelController {
             com.opensource.models.File fi = new com.opensource.models.File();
             SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
             fi.Name = row.getCell(0).toString();
-            fi.Owner = row.getCell(1).toString();
-            fi.Type = FileType.values()[(int)row.getCell(2).getNumericCellValue()];
-            fi.CreationDate = format.parse(row.getCell(3).toString());
-            fi.UpdateDate = format.parse(row.getCell(4).toString());
+            fi.LastName = row.getCell(1).toString();
+            fi.UniqueId = row.getCell(2).toString();
+            fi.Age = (row.getCell(3).toString());
+            fi.Session = row.getCell(4).toString();
             files.add(fi);
         }
 
@@ -116,13 +110,13 @@ public class ExcelController {
         HSSFSheet sheet = workbook.createSheet("FirstSheet");
         HSSFRow row = sheet.createRow(0);
         HSSFCell cell = row.createCell(0);
-        cell.setCellValue(request.FirstMessage);
+        cell.setCellValue(request.Name);
         FileOutputStream file = new FileOutputStream("files\\excel\\" +request.Name + ".xls");
 
         try {
             workbook.write(file);
             file.close();
-            CreateFileModel(request, FileType.Excel);
+            CreateFileModel(request);
         } catch (IOException e) {
             e.printStackTrace();
             throw e;
@@ -141,9 +135,9 @@ public class ExcelController {
 
             XWPFParagraph paragraph = document.createParagraph();
             XWPFRun run = paragraph.createRun();
-            run.setText(request.FirstMessage);
+            run.setText(request.Name);
             document.write(out);
-            CreateFileModel(request, FileType.Word);
+            CreateFileModel(request);
 
             out.close();
         }catch (Exception e ){
@@ -162,17 +156,17 @@ public class ExcelController {
 
         XSLFSlide slide = ppt.createSlide();
         XSLFTextBox text = slide.createTextBox();
-        text.setText(request.FirstMessage);
+        text.setText(request.Name);
         ppt.write(outputStream);
-        CreateFileModel(request, FileType.PowerPoint);
+        CreateFileModel(request);
 
         outputStream.close();
 
         return true;
     }
 
-    private void CreateFileModel(CreateFileRequest request, FileType fileType) throws IOException {
-        com.opensource.models.File file = new com.opensource.models.File(request.Name, fileType, request.UserOwner);
+    private void CreateFileModel(CreateFileRequest request) throws IOException {
+        com.opensource.models.File file = new com.opensource.models.File(request.Name,request.LastName,request.UniqueId);
         RegisterFile(file);
     }
 
@@ -202,7 +196,7 @@ public class ExcelController {
         HSSFCell cell5Sheet2 = rowSheet2.createCell(4);
         cell5Sheet2.setCellValue("UpdateDate");
 
-        FileOutputStream file = new FileOutputStream("files\\database\\database.xls");
+        FileOutputStream file = new FileOutputStream("files\\ExcelDB\\Files.xls");
 
         try {
             workbook.write(file);
@@ -214,7 +208,7 @@ public class ExcelController {
     }
 
     private void RegisterFile(com.opensource.models.File file) throws IOException {
-        FileInputStream input = new FileInputStream("files\\database\\database.xls");
+        FileInputStream input = new FileInputStream("files\\ExcelDB\\Files.xls");
         HSSFWorkbook workbook = new HSSFWorkbook(input);
 
         HSSFSheet sheet = workbook.getSheet("Files");
@@ -225,18 +219,18 @@ public class ExcelController {
         cell.setCellValue(file.Name);
 
         HSSFCell cell1 = row.createCell(1);
-        cell1.setCellValue(file.Owner);
+        cell1.setCellValue(file.LastName);
 
         HSSFCell cell2 = row.createCell(2);
-        cell2.setCellValue(file.Type.ordinal());
+        cell2.setCellValue(file.UniqueId);
 
         HSSFCell cell3 = row.createCell(3);
-        cell3.setCellValue(new SimpleDateFormat("dd-MM-yyyy").format(file.CreationDate));
+        cell3.setCellValue(file.Age);
 
         HSSFCell cell4 = row.createCell(4);
-        cell4.setCellValue(new SimpleDateFormat("dd-MM-yyyy").format(file.UpdateDate));
+        cell4.setCellValue(file.Session);
 
-        FileOutputStream out = new FileOutputStream("files\\database\\database.xls");
+        FileOutputStream out = new FileOutputStream("files\\ExcelDB\\Files.xls");
 
         workbook.write(out);
         out.flush();
