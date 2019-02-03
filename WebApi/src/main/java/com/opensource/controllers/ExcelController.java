@@ -6,9 +6,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.xslf.usermodel.XMLSlideShow;
-import org.apache.poi.xslf.usermodel.XSLFSlide;
-import org.apache.poi.xslf.usermodel.XSLFTextBox;
+import org.apache.poi.xslf.usermodel.*;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -198,11 +196,14 @@ public class ExcelController {
 
         File file = new File("files\\Presentation\\" +request.Name + ".ppt");
         XMLSlideShow ppt = new XMLSlideShow();
-
+        ppt.createSlide();
         XSLFSlide slide = ppt.createSlide();
         XSLFTextBox text = slide.createTextBox();
-        text.setFillColor(Color.GREEN);
-        text.setText(request.Message);
+        XSLFTextParagraph paragraph = text.addNewTextParagraph();
+        XSLFTextRun run = paragraph.addNewTextRun();
+        run.setFontColor(Color.BLUE);
+        run.setFontSize(24);
+        run.setText(request.Message);
 
         FileOutputStream outputStream = new FileOutputStream(file);
 
