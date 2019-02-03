@@ -15,6 +15,7 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -192,19 +193,21 @@ public class ExcelController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/power-point", method = RequestMethod.POST)
-    public boolean CreatePowerPointFile(@RequestBody CreateFileRequest request) throws IOException {
+    @RequestMapping(value = "/powerPoint", method = RequestMethod.POST)
+    public static void CreatePowerPointFile(@RequestBody Word request) throws IOException {
+
+        File file = new File("files\\Presentation\\" +request.Name + ".ppt");
         XMLSlideShow ppt = new XMLSlideShow();
-        FileOutputStream outputStream = new FileOutputStream("files\\power point\\" + request.Name + ".ppt");
 
         XSLFSlide slide = ppt.createSlide();
         XSLFTextBox text = slide.createTextBox();
-        text.setText(request.Name);
+        text.setFillColor(Color.GREEN);
+        text.setText(request.Message);
+
+        FileOutputStream outputStream = new FileOutputStream(file);
+
         ppt.write(outputStream);
-
         outputStream.close();
-
-        return true;
     }
 
 //    private void CreateFileModel(CreateFileRequest request) throws IOException {
@@ -212,42 +215,42 @@ public class ExcelController {
 //        RegisterFile(file);
 //    }
 
-    private void CreateDatabase() throws IOException  {
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("Users");
-
-        HSSFRow row = sheet.createRow(0);
-        HSSFCell cell = row.createCell(0);
-        cell.setCellValue("Username");
-        HSSFCell cell2 = row.createCell(1);
-        cell2.setCellValue("Password");
-        HSSFCell cell3 = row.createCell(2);
-        cell3.setCellValue("FullName");
-
-        HSSFSheet sheet2 = workbook.createSheet("Files");
-
-        HSSFRow rowSheet2 = sheet2.createRow(0);
-        HSSFCell cellSheet2 = rowSheet2.createCell(0);
-        cellSheet2.setCellValue("Name");
-        HSSFCell cell2Sheet2 = rowSheet2.createCell(1);
-        cell2Sheet2.setCellValue("Owner");
-        HSSFCell cell3Sheet2 = rowSheet2.createCell(2);
-        cell3Sheet2.setCellValue("Type");
-        HSSFCell cell4Sheet2 = rowSheet2.createCell(3);
-        cell4Sheet2.setCellValue("CreationDate");
-        HSSFCell cell5Sheet2 = rowSheet2.createCell(4);
-        cell5Sheet2.setCellValue("UpdateDate");
-
-        FileOutputStream file = new FileOutputStream("files\\ExcelDB\\Files.xls");
-
-        try {
-            workbook.write(file);
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
+//    private void CreateDatabase() throws IOException  {
+//        HSSFWorkbook workbook = new HSSFWorkbook();
+//        HSSFSheet sheet = workbook.createSheet("Users");
+//
+//        HSSFRow row = sheet.createRow(0);
+//        HSSFCell cell = row.createCell(0);
+//        cell.setCellValue("Username");
+//        HSSFCell cell2 = row.createCell(1);
+//        cell2.setCellValue("Password");
+//        HSSFCell cell3 = row.createCell(2);
+//        cell3.setCellValue("FullName");
+//
+//        HSSFSheet sheet2 = workbook.createSheet("Files");
+//
+//        HSSFRow rowSheet2 = sheet2.createRow(0);
+//        HSSFCell cellSheet2 = rowSheet2.createCell(0);
+//        cellSheet2.setCellValue("Name");
+//        HSSFCell cell2Sheet2 = rowSheet2.createCell(1);
+//        cell2Sheet2.setCellValue("Owner");
+//        HSSFCell cell3Sheet2 = rowSheet2.createCell(2);
+//        cell3Sheet2.setCellValue("Type");
+//        HSSFCell cell4Sheet2 = rowSheet2.createCell(3);
+//        cell4Sheet2.setCellValue("CreationDate");
+//        HSSFCell cell5Sheet2 = rowSheet2.createCell(4);
+//        cell5Sheet2.setCellValue("UpdateDate");
+//
+//        FileOutputStream file = new FileOutputStream("files\\ExcelDB\\Files.xls");
+//
+//        try {
+//            workbook.write(file);
+//            file.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw e;
+//        }
+//    }
 
 //    private void RegisterFile(com.opensource.models.File file) throws IOException {
 //        FileInputStream input = new FileInputStream("files\\ExcelDB\\Files.xls");

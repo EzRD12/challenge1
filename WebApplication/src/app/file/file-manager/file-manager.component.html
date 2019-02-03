@@ -1,31 +1,31 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="{{modalTitle}}" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <form nz-form [formGroup]="fileForm">
     <nz-form-item>
-      <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired nzFor="Name">Nombre</nz-form-label>
+      <nz-form-label [nzSm]="8" [nzXs]="16" nzRequired nzFor="Name">Nombre</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input nz-input formControlName="Name">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired>Apellido</nz-form-label>
+        <nz-form-label [nzSm]="8" [nzXs]="16" nzRequired>Apellido</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <input nz-input formControlName="LastName">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired>Matricula</nz-form-label>
+        <nz-form-label [nzSm]="8" [nzXs]="16" nzRequired>Matricula</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24">
           <input nz-input  formControlName="UniqueId">
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-          <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired>Edad</nz-form-label>
+          <nz-form-label [nzSm]="8" [nzXs]="16" nzRequired>Edad</nz-form-label>
           <nz-form-control [nzSm]="14" [nzXs]="24">
             <input nz-input  formControlName="Age" >
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
-            <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired>Curso</nz-form-label>
+            <nz-form-label [nzSm]="8" [nzXs]="16" nzRequired>Curso</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24">
               <input nz-input  formControlName="Session" >
             </nz-form-control>
@@ -78,15 +78,34 @@
 <nz-modal [(nzVisible)]="isVisibleReport" nzTitle="{{reportTittle}}" (nzOnCancel)="handelReportCancel()" (nzOnOk)="handleReport()">
   <form nz-form [formGroup]="reportForm" style="text-align: left">
     <nz-form-item>
-      <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired nzFor="Name">Nombre</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
+      <nz-form-label [nzSm]="8" [nzXs]="16" nzRequired nzFor="Name">Nombre de Archivo</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="28">
         <input nz-input formControlName="Name">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-        <nz-form-label [nzSm]="10" [nzXs]="30" nzRequired>Texto</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <nz-form-label [nzSm]="8" [nzXs]="16" nzRequired>Contenido: </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="28">
         <textarea formControlName="Message"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>
+
+
+
+<nz-modal [(nzVisible)]="isVisiblePresentation" nzTitle="{{presentationTittle}}" (nzOnCancel)="handelPresentationCancel()" (nzOnOk)="handlePresentation()">
+  <form nz-form [formGroup]="presentationForm" style="text-align: left">
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="16" nzRequired nzFor="Name">Nombre</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="28">
+        <input nz-input formControlName="Name">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="16" nzRequired>Contenido del Slide</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="28">
+        <textarea style="width: 50%" formControlName="Message"></textarea>
       </nz-form-control>
     </nz-form-item>
   </form>

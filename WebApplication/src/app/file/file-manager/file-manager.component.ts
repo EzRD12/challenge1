@@ -13,12 +13,15 @@ export class FileManagerComponent implements OnInit {
   isVisible = false;
   fileForm: FormGroup;
   reportForm: FormGroup;
+  presentationForm: FormGroup;
   modalTitle = 'Crear Estudiante';
   reportTittle = 'Crear Reporte en Word';
+  presentationTittle = 'Crear Presentacion en Power Point';
   isCreationMode = false;
   selectedFile = '';
   isVisibleReport = false;
   isVisiblePresentation = false;
+
   constructor(private fb: FormBuilder,
     private fileService: FileService,
     private toastNotificationService: ToastNotificationService) { }
@@ -32,6 +35,10 @@ export class FileManagerComponent implements OnInit {
       Session: ['', Validators.required]
     });
     this.reportForm = this.fb.group({
+      Name: [''],
+      Message: ['']
+    });
+    this.presentationForm = this.fb.group({
       Name: [''],
       Message: ['']
     });
@@ -75,6 +82,19 @@ export class FileManagerComponent implements OnInit {
   handelReportCancel(): void {
     this.isVisibleReport = false;
   }
+
+
+  handlePresentation(): void {
+    const powerPoint = this.presentationForm.getRawValue();
+    this.createPresentation(powerPoint);
+    this.isVisiblePresentation = false;
+    this.presentationForm.reset();
+  }
+
+  handelPresentationCancel(): void {
+    this.isVisiblePresentation = false;
+  }
+
 
   handleOk(): void {
     if (!this.fileForm.valid) {
@@ -123,6 +143,15 @@ export class FileManagerComponent implements OnInit {
     this.fileService.createWordFile(word).then(() => {
       this.displayToast('El archivo ha sido creado', '', ToastType.Success);
       console.log(word);
+    }).catch(() => {
+      this.displayToast('Error', 'No se logro crear el archivo', ToastType.Error);
+    });
+  }
+
+  private createPresentation(resource) {
+    this.fileService.createPresentation(resource).then(() => {
+      this.displayToast('El archivo ha sido Eliminado', '', ToastType.Success);
+      console.log(resource);
     }).catch(() => {
       this.displayToast('Error', 'No se logro crear el archivo', ToastType.Error);
     });

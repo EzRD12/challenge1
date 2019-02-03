@@ -24,4 +24,8 @@ export class FileService {
   deleteRow(index) {
     return this.http.delete(`${environment.apiBaseUrl}/deleteStudent/${index}`).toPromise();
   }
+
+  createPresentation(resources) {
+    return this.http.post(`${environment.apiBaseUrl}/powerPoint`, resources).toPromise();
+  }
 }
