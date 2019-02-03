@@ -9,7 +9,7 @@
     <nz-form-item>
       <nz-form-label [nzSm]="10" [nzXs]="30" nzFor="FirstMessage" nzRequired>Primer mensaje</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input id="FirstMessage" formControlName="FirstMessage">
+        <textarea nz-input id="FirstMessage" formControlName="FirstMessage"></textarea>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -31,7 +31,7 @@
   </form>
 </nz-modal>
 <nz-card>
-  <button class="button" nz-button [nzType]="'primary'" (click)="showModalAsCreationMode()"><span>Crear archivo</span></button>
+  <button class="button" nz-button [nzType]="'default'" (click)="showModalAsCreationMode()"><span>Crear archivo</span></button>
   <h3>Archivos creados</h3>
   <nz-table #basicTable [nzData]="files">
     <thead>

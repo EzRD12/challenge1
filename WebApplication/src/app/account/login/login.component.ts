@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      Username: ['', [Validators.required, Validators.email]],
+      Password: ['', Validators.required]
     });
   }
 
@@ -29,11 +29,15 @@ export class LoginComponent implements OnInit {
 
     // tslint:disable-next-line:no-shadowed-variable
     this.accountService.login(user).then((user) => {
-      localStorage.setItem('challengeToken', JSON.stringify(user));
-      this.displayToast('Bienvenido', '', ToastType.Success);
-      this.router.navigate(['../../dashboard']);
+      if (!user.sucess) {
+        localStorage.setItem('challengeToken', JSON.stringify(user));
+        this.displayToast('Bienvenido', '', ToastType.Success);
+        this.router.navigate(['../../dashboard']);
+      } else {
+        this.displayToast('Error', 'Usuario invalido', ToastType.Error);
+      }
     }).catch(() => {
-      this.displayToast('Error', 'Usuario invalido', ToastType.Error);
+      this.displayToast('Error', 'Contacte al administrador', ToastType.Error);
     });
   }
 

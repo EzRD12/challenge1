@@ -80,13 +80,17 @@ export class FileManagerComponent implements OnInit {
     });
   }
 
-  private deleteFile(file) {
-
+  deleteFile(file) {
     const request = {
       Name: file.Name,
       FileType: file.Type
     };
-    this.fileService.deleteFile(request).then(result => {
+    this.fileService.deleteFile(request).then(succes => {
+      if (succes) {
+        this.displayToast('Archivo eliminado', '', ToastType.Success);
+      } else {
+        this.displayToast('No se pudo eliminar el archivo', '', ToastType.Error);
+      }
       this.getFiles();
     }).catch(() => {
       this.displayToast('Error', 'No se logro borrar el archivo', ToastType.Error);

@@ -15,7 +15,7 @@ export class AccountService {
   }
 
   login(request) {
-    return this.http.post(`${environment.apiBaseUrl}/user/authenticate`, request).toPromise();
+    return this.http.post<any>(`${environment.apiBaseUrl}/user/authenticate`, request).toPromise();
   }
 
   logout(): void {

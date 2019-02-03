@@ -6,6 +6,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTextBox;
@@ -53,18 +54,34 @@ public class ExcelController {
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/files/delete", method = RequestMethod.POST)
     public boolean DeleteFile(@RequestBody DeleteFileModel request) throws IOException {
-        FileInputStream file = new FileInputStream("files\\database\\database.xls");
+        String destXls = "files\\database\\database.xls";
+        FileInputStream file = new FileInputStream(new File(destXls));
         HSSFWorkbook workbook = new HSSFWorkbook(file);
-        File fileToDelete = new File("files\\database\\"+ request.Name + ".xls");
+        String fileToDeleteExtension;
+        if(request.FileType == FileType.Excel){
+            fileToDeleteExtension = ".xls";
+        } else if(request.FileType == FileType.Word){
+            fileToDeleteExtension = ".docx";
+        } else {
+            fileToDeleteExtension = ".ppt";
+        }
+        File fileToDelete = new File("files\\"+ request.FileType.toString().toLowerCase() +"\\"+ request.Name + fileToDeleteExtension);
 
         HSSFSheet sheet = workbook.getSheet("Files");
         HSSFRow row;
 
         for (int index = 1; index <= sheet.getLastRowNum(); index++) {
+            String username = "";
             row = sheet.getRow(index);
-            String username = row.getCell(0).toString();
+            if(row != null){
+                username = row.getCell(0).toString();
+            }
             if(username.equals(request.Name)) {
                 sheet.removeRow(row);
+                FileOutputStream fileOut = new FileOutputStream(new File(destXls));
+                workbook.write(fileOut);
+                fileOut.close();
+
                 fileToDelete.delete();
                 return true;
             }
@@ -121,12 +138,14 @@ public class ExcelController {
             row = sheet.getRow(index);
             com.opensource.models.File fi = new com.opensource.models.File();
             SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-            fi.Name = row.getCell(0).toString();
-            fi.Owner = row.getCell(1).toString();
-            fi.Type = FileType.values()[(int)row.getCell(2).getNumericCellValue()];
-            fi.CreationDate = format.parse(row.getCell(3).toString());
-            fi.UpdateDate = format.parse(row.getCell(4).toString());
-            files.add(fi);
+            if(row != null){
+                fi.Name = row.getCell(0).toString();
+                fi.Owner = row.getCell(1).toString();
+                fi.Type = FileType.values()[(int)row.getCell(2).getNumericCellValue()];
+                fi.CreationDate = format.parse(row.getCell(3).toString());
+                fi.UpdateDate = format.parse(row.getCell(4).toString());
+                files.add(fi);
+            }
         }
 
         return files;
@@ -181,7 +200,7 @@ public class ExcelController {
     @RequestMapping(value = "/power-point", method = RequestMethod.POST)
     public boolean CreatePowerPointFile(@RequestBody CreateFileRequest request) throws IOException {
         XMLSlideShow ppt = new XMLSlideShow();
-        FileOutputStream outputStream = new FileOutputStream("files\\power point\\" + request.Name + ".ppt");
+        FileOutputStream outputStream = new FileOutputStream("files\\powerpoint\\" + request.Name + ".ppt");
 
         XSLFSlide slide = ppt.createSlide();
         XSLFTextBox text = slide.createTextBox();

@@ -52,7 +52,7 @@ export class NavbarComponent implements OnInit {
             nzTitle: 'Cerrar sesion',
             nzContent: 'Esta seguro de cerrar la sesion',
             nzOnOk: () => {
-                this.router.navigate(['pages/login']);
+                this.router.navigate(['./login']);
                 this.logout();
             }
         });
