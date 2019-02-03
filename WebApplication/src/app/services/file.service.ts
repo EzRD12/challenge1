@@ -9,8 +9,8 @@ export class FileService {
 
   constructor(private http: HttpClient) { }
 
-  createFile(fileForm) {
-      return this.http.post(`${environment.apiBaseUrl}/excel`, fileForm).toPromise();
+  createFile(students) {
+    return this.http.post(`${environment.apiBaseUrl}/createStudent`, students).toPromise();
   }
 
   getFiles() {

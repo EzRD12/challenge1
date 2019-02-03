@@ -57,6 +57,7 @@ public class ExcelController {
 
         HSSFWorkbook workbook = new HSSFWorkbook(file);
 
+
         HSSFSheet sheet = workbook.getSheet("Users");
         HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
 
@@ -76,6 +77,32 @@ public class ExcelController {
         out.close();
 
         return request;
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/createStudent", method = RequestMethod.POST)
+    public static void CreateStudent(@RequestBody CreateFileRequest request) throws IOException {
+
+        FileInputStream file = new FileInputStream("files\\ExcelDB\\Files.xls");
+        HSSFWorkbook workbook = new HSSFWorkbook(file);
+
+        HSSFSheet sheet = workbook.getSheet("Files");
+
+        HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
+        row.createCell(0)
+                .setCellValue(request.Name);
+        row.createCell(1)
+                .setCellValue(request.LastName);
+        row.createCell(2)
+                .setCellValue(request.UniqueId);
+        row.createCell(3)
+                .setCellValue(request.Age);
+        row.createCell(4)
+                .setCellValue(request.Session);
+
+        FileOutputStream fileOut = new FileOutputStream("files\\ExcelDB\\Files.xls");
+        workbook.write(fileOut);
+        fileOut.close();
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
