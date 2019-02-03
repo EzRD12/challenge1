@@ -20,4 +20,8 @@ export class FileService {
   createWordFile(message) {
     return this.http.post(`${environment.apiBaseUrl}/word`, message).toPromise();
   }
+
+  deleteRow(index) {
+    return this.http.delete(`${environment.apiBaseUrl}/deleteStudent/${index}`).toPromise();
+  }
 }

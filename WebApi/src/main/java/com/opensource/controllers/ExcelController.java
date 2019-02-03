@@ -14,6 +14,7 @@ import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,57 +28,57 @@ import java.util.List;
 @RestController
 public class ExcelController {
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/user/authenticate", method = RequestMethod.POST)
-    public BasicOperationResult<AuthenticationResponse> AuthenticateUser(@RequestBody AuthenticateRequest request) throws IOException {
-        FileInputStream file = new FileInputStream("files\\ExcelDB\\Files.xls");
-        HSSFWorkbook workbook = new HSSFWorkbook(file);
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping(value = "/user/authenticate", method = RequestMethod.POST)
+//    public BasicOperationResult<AuthenticationResponse> AuthenticateUser(@RequestBody AuthenticateRequest request) throws IOException {
+//        FileInputStream file = new FileInputStream("files\\ExcelDB\\Files.xls");
+//        HSSFWorkbook workbook = new HSSFWorkbook(file);
+//
+//        HSSFSheet sheet = workbook.getSheet("Users");
+//        HSSFRow row;
+//
+//        for (int index = 1; index <= sheet.getLastRowNum(); index++) {
+//            row = sheet.getRow(index);
+//            String username = row.getCell(0).toString();
+//            if(username.equals(request.Username)) {
+//                String password = row.getCell(1).toString();
+//                if(password.equals(request.Password)) {
+//                    return new BasicOperationResult<AuthenticationResponse>("", true, new AuthenticationResponse(username, password));
+//                }
+//            }
+//        }
+//
+//        return new BasicOperationResult<AuthenticationResponse>("InvalidCredentials", false, null);
+//    }
 
-        HSSFSheet sheet = workbook.getSheet("Users");
-        HSSFRow row;
-
-        for (int index = 1; index <= sheet.getLastRowNum(); index++) {
-            row = sheet.getRow(index);
-            String username = row.getCell(0).toString();
-            if(username.equals(request.Username)) {
-                String password = row.getCell(1).toString();
-                if(password.equals(request.Password)) {
-                    return new BasicOperationResult<AuthenticationResponse>("", true, new AuthenticationResponse(username, password));
-                }
-            }
-        }
-
-        return new BasicOperationResult<AuthenticationResponse>("InvalidCredentials", false, null);
-    }
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public User CreateUser(@RequestBody User request) throws IOException {
-        FileInputStream file = new FileInputStream("files\\ExcelDB\\Files.xls");
-
-        HSSFWorkbook workbook = new HSSFWorkbook(file);
-
-
-        HSSFSheet sheet = workbook.getSheet("Users");
-        HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
-
-        HSSFCell cell = row.createCell(0);
-        cell.setCellValue(request.Username);
-
-        HSSFCell cell1 = row.createCell(1);
-        cell1.setCellValue(request.Password);
-
-        HSSFCell cell2 = row.createCell(2);
-        cell2.setCellValue(request.Email);
-
-        FileOutputStream out = new FileOutputStream("files\\ExcelDB\\Files.xls");
-
-        workbook.write(out);
-        out.flush();
-        out.close();
-
-        return request;
-    }
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping(value = "/user", method = RequestMethod.POST)
+//    public User CreateUser(@RequestBody User request) throws IOException {
+//        FileInputStream file = new FileInputStream("files\\ExcelDB\\Files.xls");
+//
+//        HSSFWorkbook workbook = new HSSFWorkbook(file);
+//
+//
+//        HSSFSheet sheet = workbook.getSheet("Users");
+//        HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
+//
+//        HSSFCell cell = row.createCell(0);
+//        cell.setCellValue(request.Username);
+//
+//        HSSFCell cell1 = row.createCell(1);
+//        cell1.setCellValue(request.Password);
+//
+//        HSSFCell cell2 = row.createCell(2);
+//        cell2.setCellValue(request.Email);
+//
+//        FileOutputStream out = new FileOutputStream("files\\ExcelDB\\Files.xls");
+//
+//        workbook.write(out);
+//        out.flush();
+//        out.close();
+//
+//        return request;
+//    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/createStudent", method = RequestMethod.POST)
@@ -107,7 +108,7 @@ public class ExcelController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/files", method = RequestMethod.GET)
-    public List<com.opensource.models.File> GetFiles() throws IOException, ParseException {
+    public List<com.opensource.models.File> GetFiles() throws IOException {
         FileInputStream file = new FileInputStream("files\\ExcelDB\\Files.xls");
         HSSFWorkbook workbook = new HSSFWorkbook(file);
 
@@ -117,40 +118,53 @@ public class ExcelController {
 
         for (int index = 1; index <= sheet.getLastRowNum(); index++) {
             row = sheet.getRow(index);
-            com.opensource.models.File fi = new com.opensource.models.File();
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-            fi.Name = row.getCell(0).toString();
-            fi.LastName = row.getCell(1).toString();
-            fi.UniqueId = row.getCell(2).toString();
-            fi.Age = (row.getCell(3).toString());
-            fi.Session = row.getCell(4).toString();
-            files.add(fi);
+            com.opensource.models.File students = new com.opensource.models.File();
+            students.Name = row.getCell(0).toString();
+            students.LastName = row.getCell(1).toString();
+            students.UniqueId = row.getCell(2).toString();
+            students.Age = (row.getCell(3).toString());
+            students.Session = row.getCell(4).toString();
+            files.add(students);
         }
 
         return files;
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/excel", method = RequestMethod.POST)
-    public boolean CreateExcelFile(@RequestBody CreateFileRequest request) throws IOException {
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("FirstSheet");
-        HSSFRow row = sheet.createRow(0);
-        HSSFCell cell = row.createCell(0);
-        cell.setCellValue(request.Name);
-        FileOutputStream file = new FileOutputStream("files\\excel\\" +request.Name + ".xls");
+    @RequestMapping(value = "/deleteStudent/{id}", method = RequestMethod.DELETE)
+    public static void DeleteStudent(@PathVariable("id") int index) throws IOException {
+        FileInputStream file = new FileInputStream("files\\ExcelDB\\Files.xls");
+        HSSFWorkbook workbook = new HSSFWorkbook(file);
+        HSSFSheet sheet = workbook.getSheet("Files");
+        HSSFRow removingRow = sheet.getRow(index);
+        sheet.removeRow(removingRow);
 
-        try {
-            workbook.write(file);
-            file.close();
-            CreateFileModel(request);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        }
-
-        return true;
+        FileOutputStream fileOut = new FileOutputStream("files\\ExcelDB\\Files.xls");
+        workbook.write(fileOut);
+        fileOut.close();
     }
+
+//    @CrossOrigin(origins = "http://localhost:4200")
+//    @RequestMapping(value = "/excel", method = RequestMethod.POST)
+//    public boolean CreateExcelFile(@RequestBody CreateFileRequest request) throws IOException {
+//        HSSFWorkbook workbook = new HSSFWorkbook();
+//        HSSFSheet sheet = workbook.createSheet("FirstSheet");
+//        HSSFRow row = sheet.createRow(0);
+//        HSSFCell cell = row.createCell(0);
+//        cell.setCellValue(request.Name);
+//        FileOutputStream file = new FileOutputStream("files\\excel\\" +request.Name + ".xls");
+//
+//        try {
+//            workbook.write(file);
+//            file.close();
+//            CreateFileModel(request);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw e;
+//        }
+//
+//        return true;
+//    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/word", method = RequestMethod.POST)
@@ -187,17 +201,16 @@ public class ExcelController {
         XSLFTextBox text = slide.createTextBox();
         text.setText(request.Name);
         ppt.write(outputStream);
-        CreateFileModel(request);
 
         outputStream.close();
 
         return true;
     }
 
-    private void CreateFileModel(CreateFileRequest request) throws IOException {
-        com.opensource.models.File file = new com.opensource.models.File(request.Name,request.LastName,request.UniqueId);
-        RegisterFile(file);
-    }
+//    private void CreateFileModel(CreateFileRequest request) throws IOException {
+//        com.opensource.models.File file = new com.opensource.models.File(request.Name,request.LastName,request.UniqueId);
+//        RegisterFile(file);
+//    }
 
     private void CreateDatabase() throws IOException  {
         HSSFWorkbook workbook = new HSSFWorkbook();
@@ -236,33 +249,33 @@ public class ExcelController {
         }
     }
 
-    private void RegisterFile(com.opensource.models.File file) throws IOException {
-        FileInputStream input = new FileInputStream("files\\ExcelDB\\Files.xls");
-        HSSFWorkbook workbook = new HSSFWorkbook(input);
-
-        HSSFSheet sheet = workbook.getSheet("Files");
-
-        HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
-
-        HSSFCell cell = row.createCell(0);
-        cell.setCellValue(file.Name);
-
-        HSSFCell cell1 = row.createCell(1);
-        cell1.setCellValue(file.LastName);
-
-        HSSFCell cell2 = row.createCell(2);
-        cell2.setCellValue(file.UniqueId);
-
-        HSSFCell cell3 = row.createCell(3);
-        cell3.setCellValue(file.Age);
-
-        HSSFCell cell4 = row.createCell(4);
-        cell4.setCellValue(file.Session);
-
-        FileOutputStream out = new FileOutputStream("files\\ExcelDB\\Files.xls");
-
-        workbook.write(out);
-        out.flush();
-        out.close();
-    }
+//    private void RegisterFile(com.opensource.models.File file) throws IOException {
+//        FileInputStream input = new FileInputStream("files\\ExcelDB\\Files.xls");
+//        HSSFWorkbook workbook = new HSSFWorkbook(input);
+//
+//        HSSFSheet sheet = workbook.getSheet("Files");
+//
+//        HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
+//
+//        HSSFCell cell = row.createCell(0);
+//        cell.setCellValue(file.Name);
+//
+//        HSSFCell cell1 = row.createCell(1);
+//        cell1.setCellValue(file.LastName);
+//
+//        HSSFCell cell2 = row.createCell(2);
+//        cell2.setCellValue(file.UniqueId);
+//
+//        HSSFCell cell3 = row.createCell(3);
+//        cell3.setCellValue(file.Age);
+//
+//        HSSFCell cell4 = row.createCell(4);
+//        cell4.setCellValue(file.Session);
+//
+//        FileOutputStream out = new FileOutputStream("files\\ExcelDB\\Files.xls");
+//
+//        workbook.write(out);
+//        out.flush();
+//        out.close();
+//    }
 }
