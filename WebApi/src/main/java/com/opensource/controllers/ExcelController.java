@@ -6,7 +6,6 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTextBox;
@@ -19,7 +18,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -153,7 +151,7 @@ public class ExcelController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/excel", method = RequestMethod.POST)
-    public boolean CreateExcelFile(@RequestBody CreateFileRequest request) throws IOException {
+    public boolean CreateExcelFile(@RequestBody FileRequest request) throws IOException {
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("FirstSheet");
         HSSFRow row = sheet.createRow(0);
@@ -174,8 +172,72 @@ public class ExcelController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/excel", method = RequestMethod.PUT)
+    public boolean UpdateExcelFile(@RequestBody FileRequest request) throws IOException {
+        String destXls = "files\\database\\database.xls";
+        FileInputStream file = new FileInputStream(new File(destXls));
+        HSSFWorkbook workbook = new HSSFWorkbook(file);
+
+        HSSFSheet sheet = workbook.getSheet("Files");
+        HSSFRow row;
+
+        for (int index = 1; index <= sheet.getLastRowNum(); index++) {
+            String username = "";
+            HSSFCell cell;
+            final int nameCell = 0;
+            final int ownerCell = 1;
+            row = sheet.getRow(index);
+            if(row != null){
+                username = row.getCell(0).toString();
+            }
+            if(username.equals(request.Name)) {
+                //////////Database File//////////////
+                for(int i = 1; i <= row.getLastCellNum(); i++){
+                    if(i == nameCell){
+                        cell = row.getCell(i);
+                        cell.setCellValue(request.Name);
+                    } else if(i == ownerCell){
+                        cell = row.getCell(i);
+                        cell.setCellValue(request.UserOwner);
+                    }
+                }
+
+                FileOutputStream fileOut = new FileOutputStream(new File(destXls));
+                workbook.write(fileOut);
+                fileOut.close();
+                //////////Selected File//////////////
+                String fileToDeleteExtension;
+                if(request.FileType == FileType.Excel){
+                    fileToDeleteExtension = ".xls";
+                } else if(request.FileType == FileType.Word){
+                    fileToDeleteExtension = ".docx";
+                } else {
+                    fileToDeleteExtension = ".ppt";
+                }
+                File fileToUpdate = new File("files\\"+ request.FileType.toString().toLowerCase() +"\\"+ request.Name + fileToDeleteExtension);
+                FileInputStream fsIP= new FileInputStream(fileToUpdate);
+                HSSFWorkbook wb = new HSSFWorkbook(fsIP);
+                HSSFSheet worksheet = wb.getSheetAt(0);
+                HSSFCell updateCell;
+                updateCell = worksheet.getRow(1).getCell(1);
+                updateCell.setCellValue(request.FirstMessage);
+                FileOutputStream output_file = new FileOutputStream(new File("C:\\Excel.xls"));
+                wb.write(output_file);
+                output_file.close();
+
+                return true;
+            }
+        }
+
+        return false;
+
+
+    }
+
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/word", method = RequestMethod.POST)
-    public boolean CreateWordFile(@RequestBody CreateFileRequest request) throws IOException {
+    public boolean CreateWordFile(@RequestBody FileRequest request) throws IOException {
         try{
             XWPFDocument document = new XWPFDocument();
             File file = new File("files\\\\word\\" +request.Name + ".docx");
@@ -198,7 +260,7 @@ public class ExcelController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/power-point", method = RequestMethod.POST)
-    public boolean CreatePowerPointFile(@RequestBody CreateFileRequest request) throws IOException {
+    public boolean CreatePowerPointFile(@RequestBody FileRequest request) throws IOException {
         XMLSlideShow ppt = new XMLSlideShow();
         FileOutputStream outputStream = new FileOutputStream("files\\powerpoint\\" + request.Name + ".ppt");
 
@@ -213,7 +275,7 @@ public class ExcelController {
         return true;
     }
 
-    private void CreateFileModel(CreateFileRequest request, FileType fileType) throws IOException {
+    private void CreateFileModel(FileRequest request, FileType fileType) throws IOException {
         com.opensource.models.File file = new com.opensource.models.File(request.Name, fileType, request.UserOwner);
         RegisterFile(file);
     }
