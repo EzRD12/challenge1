@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
     // tslint:disable-next-line:no-shadowed-variable
     this.accountService.login(user).then((user) => {
-      if (!user.sucess) {
+      if (user.success) {
         localStorage.setItem('challengeToken', JSON.stringify(user));
         this.displayToast('Bienvenido', '', ToastType.Success);
         this.router.navigate(['../../dashboard']);
