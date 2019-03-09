@@ -1,5 +1,6 @@
 package com.opensource.controllers;
 
+import com.opensource.Dao.AuthenticationDao;
 import com.opensource.enums.FileType;
 import com.opensource.models.*;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -28,26 +29,17 @@ import java.util.List;
 @RestController
 public class ExcelController {
 
+    private AuthenticationDao authenticationDao;
+
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/user/authenticate", method = RequestMethod.POST)
-    public BasicOperationResult<AuthenticationResponse> AuthenticateUser(@RequestBody AuthenticateRequest request) throws IOException {
-        FileInputStream file = new FileInputStream("files\\database\\database.xls");
-        HSSFWorkbook workbook = new HSSFWorkbook(file);
+    public BasicOperationResult<AuthenticationResponse> AuthenticateUser(@RequestBody AuthenticateRequest request) {
 
-        HSSFSheet sheet = workbook.getSheet("Users");
-        HSSFRow row;
-
-        for (int index = 1; index <= sheet.getLastRowNum(); index++) {
-            row = sheet.getRow(index);
-            String username = row.getCell(0).toString();
-            if(username.equals(request.Username)) {
-                String password = row.getCell(1).toString();
-                if(password.equals(request.Password)) {
-                    return new BasicOperationResult<AuthenticationResponse>("", true, new AuthenticationResponse(username, password));
-                }
-            }
+        User user = authenticationDao.authenticateUser(request.Username, request.Password);
+        if(user != null) {
+            AuthenticationResponse response = new AuthenticationResponse(user.Username, user.FullName);
+            return new BasicOperationResult<AuthenticationResponse>("", true, response);
         }
-
         return new BasicOperationResult<AuthenticationResponse>("InvalidCredentials", false, null);
     }
 

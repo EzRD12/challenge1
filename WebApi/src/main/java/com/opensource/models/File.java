@@ -24,6 +24,7 @@ public class File {
         this.UpdateDate = new Date();
     }
 
+    public int Id;
     public String Name;
     public FileType Type;
     public Date CreationDate;
