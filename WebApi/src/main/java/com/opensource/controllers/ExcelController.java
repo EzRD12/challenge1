@@ -62,6 +62,7 @@ public class ExcelController {
             fileToDeleteExtension = ".ppt";
         }
         File fileToDelete = new File("files\\"+ request.FileType.toString().toLowerCase() +"\\"+ request.Name + fileToDeleteExtension);
+        fileToDelete.delete();
 
         return fileDao.deleteFile(request.Id);
     }

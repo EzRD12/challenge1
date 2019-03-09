@@ -15,7 +15,8 @@ export class FileManagerComponent implements OnInit {
   fileForm: FormGroup;
   modalTitle = 'Creacion de archivo';
   isCreationMode = false;
-  selectedFile = '';
+  hideFirstMessageControl = false;
+  selectedFile: any;
 
   constructor(private fb: FormBuilder,
     private fileService: FileService,
@@ -26,7 +27,6 @@ export class FileManagerComponent implements OnInit {
     this.fileForm = this.fb.group({
       Name: ['', Validators.required],
       FirstMessage: ['', Validators.required],
-      UserOwner: ['', Validators.required],
       FileType: ['', Validators.required]
     });
     this.getFiles();
@@ -43,22 +43,19 @@ export class FileManagerComponent implements OnInit {
   showModalAsCreationMode(): void {
     this.isVisible = true;
     this.isCreationMode = true;
+    this.hideFirstMessageControl = false;
   }
 
   showModalAsEditMode(data: any): void {
-    console.log(data)
-    this.selectedFile = 'fileName';
+    this.selectedFile = data;
     this.isVisible = true;
     this.isCreationMode = false;
     this.fileForm.controls['FileType'].disable();
-    const file = this.files.find(x => x.name == this.selectedFile);
-    console.log(file);
-    console.log(this.files);
-    this.fileForm.setValue({
-      name: file.name,
-      firstMessage: file.firstMessage,
-      userOwner: file.userOwner,
-      fileType: file.fileType
+    this.hideFirstMessageControl = false;
+    this.fileForm.patchValue({
+      Name: data.Name,
+      UserOwner: data.Owner,
+      FileType: data.Type
     });
   }
 
@@ -72,12 +69,33 @@ export class FileManagerComponent implements OnInit {
         this.isVisible = false;
         this.fileForm.reset();
       } else {
-        console.log('Updating...')
+        const fileForm = this.fileForm.getRawValue();
+        fileForm.UserOwner = this.accountService.currentUser.result.Username;
+        const request = {
+          Id: this.selectedFile.Id,
+          Name: this.selectedFile.Name,
+          FileType: this.selectedFile.Type
+        };
+
+        this.fileService.deleteFile(request).then(succes => {
+          if (succes) {
+            this.fileService.createFile(fileForm).then(() => {
+              this.displayToast('Archivo actualizado', '', ToastType.Success);
+              this.getFiles();
+            });
+          }
+          this.getFiles();
+        }).catch(() => {
+          this.displayToast('Error', 'No se logro actualizar el archivo', ToastType.Error);
+        });
+        this.isVisible = false;
+        this.fileForm.reset();
       }
     }
   }
 
   private createFile(fileForm: any) {
+    fileForm.UserOwner = this.accountService.currentUser.result.Username;
     this.fileService.createFile(fileForm).then(() => {
       this.displayToast('Archivo creado', '', ToastType.Success);
       this.getFiles();

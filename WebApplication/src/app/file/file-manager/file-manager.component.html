@@ -13,18 +13,12 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="10" [nzXs]="30" nzFor="UserOwner" nzRequired>Usuario propietario</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input nz-input type="UserOwner" formControlName="UserOwner" id="UserOwner">
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
       <nz-form-label [nzSm]="10" [nzXs]="30" nzFor="fileType" nzRequired>Tipo de archivo</nz-form-label>
       <nz-form-control [nzSm]="14" [nzXs]="24">
         <nz-select formControlName="FileType" style="width: 100px;">
-          <nz-option nzLabel="Excel" nzValue="0"></nz-option>
-          <nz-option nzLabel="Word" nzValue="1"></nz-option>
-          <nz-option nzLabel="Power Point" nzValue="2"></nz-option>
+          <nz-option nzLabel="Excel" nzValue="Excel"></nz-option>
+          <nz-option nzLabel="Word" nzValue="Word"></nz-option>
+          <nz-option nzLabel="Power Point" nzValue="PowerPoint"></nz-option>
         </nz-select>
       </nz-form-control>
     </nz-form-item>
