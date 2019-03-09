@@ -26,4 +26,14 @@ export class FileService {
   getFiles() {
     return this.http.get<any[]>(`${environment.apiBaseUrl}/files`).toPromise();
   }
+
+  updateFile(fileForm) {
+    if (fileForm.FileType == 0) {
+      return this.http.put(`${environment.apiBaseUrl}/excel`, fileForm).toPromise();
+    } else if (fileForm.FileType == 1) {
+      return this.http.put(`${environment.apiBaseUrl}/word`, fileForm).toPromise();
+    } else {
+      return this.http.put(`${environment.apiBaseUrl}/power-point`, fileForm).toPromise();
+    }
+  }
 }

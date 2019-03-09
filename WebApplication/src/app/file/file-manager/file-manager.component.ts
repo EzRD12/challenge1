@@ -43,10 +43,21 @@ export class FileManagerComponent implements OnInit {
     this.isCreationMode = true;
   }
 
-  showModalAsEditMode(file: string): void {
-    this.selectedFile = file;
+  showModalAsEditMode(data: any): void {
+    console.log(data)
+    this.selectedFile = 'fileName';
     this.isVisible = true;
     this.isCreationMode = false;
+    this.fileForm.controls['FileType'].disable();
+    const file = this.files.find(x => x.name == this.selectedFile);
+    console.log(file);
+    console.log(this.files);
+    this.fileForm.setValue({
+      name: file.name,
+      firstMessage: file.firstMessage,
+      userOwner: file.userOwner,
+      fileType: file.fileType
+    });
   }
 
   handleOk(): void {
@@ -59,14 +70,7 @@ export class FileManagerComponent implements OnInit {
         this.isVisible = false;
         this.fileForm.reset();
       } else {
-        // const file = this.files.find(x => x.name == this.selectedFile);
-        // console.log(this.files)
-        // this.fileForm.setValue({
-        //   name: file.name,
-        //   firstMessage: file.firstMessage,
-        //   userOwner: file.userOwner,
-        //   fileType: file.fileType
-        // });
+        console.log('Updating...')
       }
     }
   }
