@@ -119,15 +119,17 @@ public class FileDao {
         }
     }
 
-    public boolean deleteFile(String name) {
-        File productToCheck;
-        productToCheck = getFilesByName(name);
-        if (name != productToCheck.Name) {
-            String query = "DELETE files SET WHERE id =" + name;
-            return executeCommand(query);
-        } else {
-            return true;
-        }
+    public boolean deleteFile(int id) {
+//        File productToCheck;
+//        productToCheck = getFilesById(id);
+//        if (id != productToCheck.Id) {
+//            String query = "DELETE files SET WHERE id =" + id;
+//            return executeCommand(query);
+//        } else {
+//            return true;
+//        }
+        String query = "DELETE files WHERE id =" + id;
+        return executeCommand(query);
     }
 
     private File getFilesById(int id) {

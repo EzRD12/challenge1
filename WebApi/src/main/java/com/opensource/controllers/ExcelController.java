@@ -63,7 +63,7 @@ public class ExcelController {
         }
         File fileToDelete = new File("files\\"+ request.FileType.toString().toLowerCase() +"\\"+ request.Name + fileToDeleteExtension);
 
-        return fileDao.deleteFile(request.Name);
+        return fileDao.deleteFile(request.Id);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")

@@ -22,7 +22,7 @@ export class AccountService {
     localStorage.clear();
   }
 
-  public get currentUser(): UserProfile {
-    return JSON.parse(localStorage.getItem('challengeToken')) as UserProfile;
+  public get currentUser() {
+    return JSON.parse(localStorage.getItem('challengeToken'));
   }
 }

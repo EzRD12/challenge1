@@ -1,3 +1,4 @@
+import { AccountService } from 'src/app/services/account.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastNotificationService, ToastType } from 'src/app/services/toast-notification.service';
@@ -18,7 +19,8 @@ export class FileManagerComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private fileService: FileService,
-    private toastNotificationService: ToastNotificationService) { }
+    private toastNotificationService: ToastNotificationService,
+    private accountService: AccountService) { }
 
   ngOnInit() {
     this.fileForm = this.fb.group({
@@ -86,6 +88,7 @@ export class FileManagerComponent implements OnInit {
 
   deleteFile(file) {
     const request = {
+      Id: file.Id,
       Name: file.Name,
       FileType: file.Type
     };
@@ -110,5 +113,9 @@ export class FileManagerComponent implements OnInit {
       title: title,
       message: message
     }, toastType);
+  }
+
+  canDelete(file) {
+    return file.Owner.toLowerCase() === this.accountService.currentUser.result.Username;
   }
 }

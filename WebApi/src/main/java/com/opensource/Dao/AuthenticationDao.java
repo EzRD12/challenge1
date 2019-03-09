@@ -18,8 +18,8 @@ public class AuthenticationDao {
             return false;
         } else {
             String query = "INSERT INTO Users VALUES ('" + user.Username + "','"
-                    + user.FullName + "',"
-                    + user.Password + ")";
+                    + user.Password + "','"
+                    + user.FullName + "')";
             return executeCommand(query);
         }
     }
