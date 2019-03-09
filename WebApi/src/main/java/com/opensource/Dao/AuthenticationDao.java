@@ -1,12 +1,14 @@
 package com.opensource.Dao;
 
 import com.opensource.models.User;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@Repository
 public class AuthenticationDao {
 
     public boolean createUser(User user) {
@@ -23,33 +25,29 @@ public class AuthenticationDao {
     }
 
     public User authenticateUser(String userName, String password) {
-        String query = "Select * from Users WHERE username =" + userName + " AND password =" + password;
+        String query = "Select * from Users WHERE Username = '" + userName + "' AND Password = '" + password + "'";
         return getUser(query);
     }
 
     private User getUserByName(String name) {
-        String query = "Select * from Users WHERE name =" + name;
+        String query = "Select * from Users WHERE Username = " + name + "";
         return getUser(query);
     }
 
     private User getUser(String query) {
         try {
-            User product = new User();
             Connection con = SqlServerConnector.getConnection();
             Statement state;
             state = con.createStatement();
             ResultSet rs = state.executeQuery(query);
-
-            while (rs.next()) {
-                User newProduct = new User(
-                        rs.getString("username"),
-                        rs.getString("fullName"),
-                        rs.getString("password")
-                );
-                newProduct.Id = (rs.getInt("id"));
-                product = newProduct;
-            }
-            return product;
+            rs.next();
+            User newProduct = new User(
+                    rs.getString("Username"),
+                    rs.getString("FullName"),
+                    rs.getString("Password")
+            );
+            newProduct.Id = (rs.getInt("Id"));
+            return newProduct;
         } catch (SQLException ex) {
             return null;
         } catch (Exception e) {

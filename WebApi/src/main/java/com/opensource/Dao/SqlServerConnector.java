@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class SqlServerConnector {
 
-    private final static String connectionString = "jdbc:sqlserver:.;databaseName=ChallengeOneDB;integratedSecurity=false;";
+    private final static String connectionString = "jdbc:sqlserver://localhost:1433;databaseName=ChallengeOneDB;integratedSecurity=false;";
 
     public static Connection getConnection() {
         try {
