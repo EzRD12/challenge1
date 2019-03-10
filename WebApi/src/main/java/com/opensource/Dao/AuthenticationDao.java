@@ -41,12 +41,12 @@ public class AuthenticationDao {
             state = con.createStatement();
             ResultSet rs = state.executeQuery(query);
             rs.next();
-            User newProduct = new User(
-                    rs.getString("Username"),
-                    rs.getString("FullName"),
-                    rs.getString("Password")
-            );
-            newProduct.Id = (rs.getInt("Id"));
+            User newProduct = new User();
+            newProduct.setFullName(rs.getString("FullName"));
+            newProduct.setId(rs.getInt("Id"));
+            newProduct.setUsername(rs.getString("Username"));
+            newProduct.setPassword(rs.getString("Password"));
+
             return newProduct;
         } catch (SQLException ex) {
             return null;

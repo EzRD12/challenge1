@@ -1,16 +1,43 @@
 package com.opensource.models;
 
-public class User {
-    public User() {
+import java.io.Serializable;
+
+public class User implements Serializable {
+
+    public int Id;
+
+    public int getId() {
+        return Id;
     }
 
-    public User(String username, String password, String fullName) {
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public String getUsername() {
+        return Username;
+    }
+
+    public void setUsername(String username) {
         Username = username;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
         Password = password;
+    }
+
+    public String getFullName() {
+        return FullName;
+    }
+
+    public void setFullName(String fullName) {
         FullName = fullName;
     }
 
-    public int Id;
     public String Username;
     public String Password;
     public String FullName;

@@ -120,25 +120,12 @@ public class FileDao {
     }
 
     public boolean deleteFile(int id) {
-//        File productToCheck;
-//        productToCheck = getFilesById(id);
-//        if (id != productToCheck.Id) {
-//            String query = "DELETE files SET WHERE id =" + id;
-//            return executeCommand(query);
-//        } else {
-//            return true;
-//        }
         String query = "DELETE files WHERE id =" + id;
         return executeCommand(query);
     }
 
     private File getFilesById(int id) {
         String query = "Select * from files WHERE id =" + id;
-        return getFile(query);
-    }
-
-    private File getFilesByName(String name) {
-        String query = "Select * from Files WHERE Name ='" + name +"'";
         return getFile(query);
     }
 

@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
     private nativeElement: Node;
     private toggleButton;
     private sidebarVisible: boolean;
+    userName = '';
 
     @ViewChild("navbar-cmp") button;
 
@@ -34,6 +35,7 @@ export class NavbarComponent implements OnInit {
         this.listTitles = ROUTES.filter(listTitle => listTitle);
         var navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
+        this.userName = this.accountService.currentUser.result.FullName;
     }
 
     getTitle() {
